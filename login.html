@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employee Risk Intelligence | Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #060912;
+  color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* ═══════════════════════════════════════
+   AURORA BACKGROUND
+═══════════════════════════════════════ */
+.aurora {
+  position: fixed; inset: 0; z-index: 0;
+  overflow: hidden; pointer-events: none;
+}
+.aurora-blob {
+  position: absolute; border-radius: 50%;
+  filter: blur(120px);
+  will-change: transform;
+  transition: transform 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.a1 { width: 700px; height: 700px; top: -200px; left: -150px;
+      background: radial-gradient(circle, rgba(79,70,229,0.35) 0%, transparent 70%); }
+.a2 { width: 600px; height: 600px; bottom: -150px; right: -100px;
+      background: radial-gradient(circle, rgba(124,58,237,0.3) 0%, transparent 70%); }
+.a3 { width: 500px; height: 500px; top: 30%; left: 40%;
+      background: radial-gradient(circle, rgba(6,182,212,0.18) 0%, transparent 70%); }
+.a4 { width: 400px; height: 400px; bottom: 10%; left: 5%;
+      background: radial-gradient(circle, rgba(190,24,93,0.15) 0%, transparent 70%); }
+
+/* Grid overlay */
+.grid {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+}
+
+/* ═══════════════════════════════════════
+   CENTERED LAYOUT
+═══════════════════════════════════════ */
+.page {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 40px;
+  max-width: 480px; width: 100%;
+}
+
+/* ── BRANDING ABOVE CARD ──────────── */
+.brand {
+  text-align: center;
+  margin-bottom: 32px;
+}
+.brand-icon {
+  width: 56px; height: 56px; border-radius: 16px;
+  background: linear-gradient(135deg, rgba(99,102,241,0.3), rgba(139,92,246,0.3));
+  border: 1px solid rgba(139,92,246,0.35);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 22px; color: #a78bfa;
+  box-shadow: 0 0 40px rgba(139,92,246,0.25);
+  margin-bottom: 18px;
+}
+.brand-title {
+  font-size: 28px; font-weight: 800;
+  letter-spacing: -1px;
+  background: linear-gradient(135deg, #fff 0%, #e0e7ff 40%, #a5b4fc 80%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+}
+.brand-sub {
+  font-size: 14px; color: #475569; font-weight: 400; line-height: 1.5;
+}
+
+/* ── CARD ──────────────────────────── */
+.card-outer {
+  perspective: 1200px;
+  width: 100%;
+}
+
+.card {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 24px;
+  padding: 36px 32px 30px;
+  backdrop-filter: blur(60px) saturate(150%);
+  -webkit-backdrop-filter: blur(60px) saturate(150%);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.05) inset,
+    0 32px 80px rgba(0,0,0,0.6),
+    0 0 80px rgba(99,102,241,0.08);
+  position: relative; overflow: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+}
+
+/* shimmer edges */
+.card::before {
+  content: '';
+  position: absolute; top: 0; left: 10%; right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+}
+.card::after {
+  content: '';
+  position: absolute; bottom: 0; left: 20%; right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(99,102,241,0.2), transparent);
+}
+
+/* card inner glow on hover */
+.card-glow {
+  position: absolute; inset: 0; border-radius: 24px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+  background: radial-gradient(circle at var(--gx,50%) var(--gy,50%), rgba(99,102,241,0.1) 0%, transparent 60%);
+}
+
+/* ── SECTION LABEL ────────────────── */
+.section-label {
+  font-size: 11px; font-weight: 600; color: #6366f1;
+  text-transform: uppercase; letter-spacing: 1.2px;
+  margin-bottom: 20px;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-label::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, rgba(99,102,241,0.2), transparent);
+}
+
+/* ── INPUTS ────────────────────────── */
+.field { margin-bottom: 14px; }
+.field-label {
+  font-size: 11px; font-weight: 600; color: #475569;
+  text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 7px;
+  display: flex; align-items: center; gap: 5px;
+}
+.iw { position: relative; }
+.iico {
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  color: #334155; font-size: 13px; pointer-events: none; transition: color 0.2s;
+}
+.iw:focus-within .iico { color: #818cf8; }
+.inp {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  padding: 13px 16px 13px 42px;
+  color: #f1f5f9; font-size: 14px;
+  font-family: inherit; outline: none;
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+.inp::placeholder { color: #334155; }
+.inp:focus {
+  background: rgba(99,102,241,0.06);
+  border-color: rgba(139,92,246,0.5);
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.1), 0 0 20px rgba(99,102,241,0.05);
+}
+.pwbtn {
+  position: absolute; right: 13px; top: 50%;
+  transform: translateY(-50%);
+  background: none; border: none; color: #334155;
+  cursor: pointer; font-size: 12px; padding: 4px;
+  transition: color 0.2s;
+}
+.pwbtn:hover { color: #64748b; }
+
+/* ── ERROR ─────────────────────────── */
+.errbox {
+  display: none; align-items: center; gap: 8px;
+  background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.18);
+  border-radius: 11px; padding: 10px 13px;
+  font-size: 12px; color: #fca5a5; margin-bottom: 14px;
+}
+.errbox.show { display: flex; animation: shake .4s ease; }
+@keyframes shake {
+  0%,100%{transform:translateX(0)} 20%{transform:translateX(-5px)}
+  40%{transform:translateX(5px)} 60%{transform:translateX(-3px)} 80%{transform:translateX(3px)}
+}
+
+/* ── BUTTON ────────────────────────── */
+.btn-login {
+  width: 100%; margin-top: 6px; padding: 14px;
+  background: linear-gradient(135deg, #4338ca, #6d28d9, #7c3aed);
+  background-size: 200% 100%; border: none; border-radius: 12px;
+  color: white; font-size: 14px; font-weight: 700;
+  font-family: inherit; cursor: pointer; letter-spacing: 0.2px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  position: relative; overflow: hidden;
+  box-shadow: 0 4px 20px rgba(99,102,241,0.35);
+  transition: all 0.25s;
+}
+.btn-login::before {
+  content: '';
+  position: absolute; top: 0; left: -100%; width: 65%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  transform: skewX(-18deg); transition: left 0.55s;
+}
+.btn-login:hover::before { left: 160%; }
+.btn-login:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(99,102,241,0.5), 0 0 0 1px rgba(139,92,246,0.3);
+}
+.btn-login:active { transform: translateY(0); }
+.btn-login:disabled { opacity:.6; cursor:not-allowed; transform:none; }
+.spin { display:none; width:15px; height:15px; border:2px solid rgba(255,255,255,0.25); border-top-color:#fff; border-radius:50%; animation:rot .6s linear infinite; }
+@keyframes rot { to{transform:rotate(360deg)} }
+.btn-login.loading .spin { display:block; }
+.btn-login.loading .blbl { display:none; }
+
+/* ── CARD FOOTER ───────────────────── */
+.card-foot {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  margin-top: 20px; padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  font-size: 11px; color: #334155;
+}
+.card-foot i { color: #312e81; font-size: 10px; }
+
+/* ── FOOTER BELOW CARD ────────────── */
+.page-foot {
+  margin-top: 28px;
+  text-align: center;
+  font-size: 12px; color: #1e293b;
+}
+.page-foot span { color: #334155; }
+
+/* ── RESPONSIVE ────────────────────── */
+@media (max-width: 520px) {
+  .page { padding: 20px; }
+  .card { padding: 28px 22px 24px; }
+  .brand-title { font-size: 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Aurora -->
+<div class="aurora">
+  <div class="aurora-blob a1"></div>
+  <div class="aurora-blob a2"></div>
+  <div class="aurora-blob a3"></div>
+  <div class="aurora-blob a4"></div>
+</div>
+
+<!-- Grid -->
+<div class="grid"></div>
+
+<!-- Content -->
+<div class="page" id="page">
+
+  <!-- BRANDING -->
+  <div class="brand">
+    <div class="brand-icon"><i class="fas fa-shield-halved"></i></div>
+    <div class="brand-title">Employee Risk Intelligence</div>
+    <div class="brand-sub">ML-powered attrition prediction & explainability</div>
+  </div>
+
+  <!-- CARD -->
+  <div class="card-outer">
+    <div class="card" id="card">
+      <div class="card-glow" id="cardGlow"></div>
+
+      <div class="section-label">Sign in to continue</div>
+
+      <div class="errbox" id="errBox">
+        <i class="fas fa-circle-exclamation"></i>
+        <span id="errTxt">Invalid credentials.</span>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Username</div>
+        <div class="iw">
+          <i class="fas fa-at iico"></i>
+          <input type="text" class="inp" id="username"
+            placeholder="Enter your username" autocomplete="username"/>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Password</div>
+        <div class="iw">
+          <i class="fas fa-lock iico"></i>
+          <input type="password" class="inp" id="password"
+            placeholder="Enter your password" autocomplete="current-password"/>
+          <button class="pwbtn" type="button" onclick="togglePw()">
+            <i class="fas fa-eye" id="pwIco"></i>
+          </button>
+        </div>
+      </div>
+
+      <button class="btn-login" id="btnLogin" onclick="doLogin()">
+        <div class="spin"></div>
+        <span class="blbl"><i class="fas fa-arrow-right-to-bracket"></i>&nbsp; Sign In</span>
+      </button>
+
+      <div class="card-foot">
+        <i class="fas fa-lock"></i>
+        Encrypted &middot; Session secured &middot; bcrypt auth
+      </div>
+    </div>
+  </div>
+
+  <div class="page-foot">
+    Final Year Project &middot; <span>Random Forest + SHAP</span>
+  </div>
+
+</div>
+
+<script>
+/* ═══════════════════════════════════════
+   MOUSE PARALLAX (aurora blobs)
+═══════════════════════════════════════ */
+let mx = 0, my = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+const a1 = document.querySelector('.a1');
+const a2 = document.querySelector('.a2');
+const a3 = document.querySelector('.a3');
+const a4 = document.querySelector('.a4');
+
+function lerp(a, b, t){ return a + (b - a) * t; }
+let smoothX = window.innerWidth / 2, smoothY = window.innerHeight / 2;
+
+function parallax(){
+  smoothX = lerp(smoothX, mx, 0.04);
+  smoothY = lerp(smoothY, my, 0.04);
+  const nx = (smoothX / window.innerWidth  - 0.5);
+  const ny = (smoothY / window.innerHeight - 0.5);
+  a1.style.transform = `translate(${nx*40}px, ${ny*40}px)`;
+  a2.style.transform = `translate(${-nx*35}px, ${-ny*35}px)`;
+  a3.style.transform = `translate(${nx*25}px, ${ny*25}px)`;
+  a4.style.transform = `translate(${nx*20}px, ${ny*20}px)`;
+  requestAnimationFrame(parallax);
+}
+parallax();
+
+/* ═══════════════════════════════════════
+   CARD 3D TILT
+═══════════════════════════════════════ */
+const card = document.getElementById('card');
+const glow = document.getElementById('cardGlow');
+
+card.addEventListener('mousemove', e => {
+  const r = card.getBoundingClientRect();
+  const px = (e.clientX - r.left) / r.width;
+  const py = (e.clientY - r.top)  / r.height;
+  const tiltX =  (py - 0.5) * 10;
+  const tiltY = -(px - 0.5) * 10;
+  card.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.01)`;
+  card.style.boxShadow = `0 32px 100px rgba(0,0,0,0.7), 0 0 60px rgba(99,102,241,0.15)`;
+  glow.style.opacity = '1';
+  glow.style.setProperty('--gx', (px * 100) + '%');
+  glow.style.setProperty('--gy', (py * 100) + '%');
+});
+
+card.addEventListener('mouseleave', () => {
+  card.style.transform = `rotateX(0deg) rotateY(0deg) scale(1)`;
+  card.style.boxShadow = '';
+  glow.style.opacity = '0';
+});
+
+/* ═══════════════════════════════════════
+   AUTH
+═══════════════════════════════════════ */
+document.addEventListener('keydown', e => { if(e.key === 'Enter') doLogin(); });
+
+function togglePw(){
+  const i = document.getElementById('password');
+  const ic = document.getElementById('pwIco');
+  i.type = i.type === 'password' ? 'text' : 'password';
+  ic.className = i.type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
+}
+
+function showErr(msg){
+  const b = document.getElementById('errBox');
+  document.getElementById('errTxt').textContent = msg;
+  b.classList.remove('show'); void b.offsetWidth; b.classList.add('show');
+}
+
+async function doLogin(){
+  const user = document.getElementById('username').value.trim();
+  const pass = document.getElementById('password').value;
+  const btn  = document.getElementById('btnLogin');
+  document.getElementById('errBox').classList.remove('show');
+  if(!user || !pass){ showErr('Please enter username and password.'); return; }
+  btn.disabled = true; btn.classList.add('loading');
+  try {
+    const r = await fetch('/api/login', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ username: user, password: pass })
+    });
+    const d = await r.json();
+    if(r.ok && d.success){
+      btn.classList.remove('loading');
+      btn.style.background = 'linear-gradient(135deg,#15803d,#16a34a)';
+      btn.innerHTML = '<i class="fas fa-circle-check"></i>&nbsp; Access Granted';
+      setTimeout(() => window.location.href = '/', 750);
+    } else {
+      showErr(d.error || 'Invalid username or password.');
+      btn.disabled = false; btn.classList.remove('loading');
+    }
+  } catch {
+    showErr('Cannot reach server. Try again.');
+    btn.disabled = false; btn.classList.remove('loading');
+  }
+}
+</script>
+</body>
+</html>
