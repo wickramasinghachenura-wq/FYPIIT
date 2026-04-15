@@ -1,0 +1,9 @@
+{
+  "accuracy": 80.2,
+  "precision": 73.7,
+  "recall": 53.2,
+  "f1": 61.8,
+  "auc_roc": 90.4,
+  "threshold": 0.35,
+  "trained_at": "regenerate by running retrain_ibm.py"
+}
