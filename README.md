@@ -1,5 +1,7 @@
 # Employee Attrition Risk Prediction System
 
+Loging = admin pword= sPkuL5ezZfXEzhA
+
 An AI-powered HR dashboard that predicts employee attrition risk using Random Forest and explains predictions using SHAP (SHapley Additive exPlanations).
 
 ## Tech Stack
